@@ -5,9 +5,11 @@ module.exports = {
   mode: 'development',
   entry: {
     app: './src/app.js',
+    newProject: './src/newProject.js',
+    newTodo: './src/newTodo.js',
   },
- devtool: 'inline-source-map',
- devServer: {
+  devtool: 'inline-source-map',
+  devServer: {
     static: './dist',
   },
   plugins: [
@@ -33,10 +35,10 @@ module.exports = {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
       },
-     {
-       test: /\.(woff|woff2|eot|ttf|otf)$/i,
-       type: 'asset/resource',
-     },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+      },
     ],
   },
 };
