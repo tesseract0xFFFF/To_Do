@@ -1,10 +1,12 @@
 import Project from './newProject';
 import './styles.css';
+import { displayProjects } from './display';
 // create the default project that will show when the app is launched for the first time.
 const main = (() => {
   // an array holding all projects.
   const projectArray = [];
   const defaultProject = new Project('default');
+  displayProjects('default');
   // project creation.
   const createProject = (projectName) => {
     const newProject = new Project(projectName);
@@ -25,14 +27,6 @@ const main = (() => {
     projectArray, defaultProject, createProject, deleteProject,
   };
 })();
-
-// displays the newly created projects.
-const displayProjects = (projectName) => {
-  const projectArea = document.querySelector('.projectArea');
-  const projectElement = document.createElement('div');
-  projectElement.textContent = projectName;
-  projectArea.appendChild(projectElement);
-};
 
 // creates a project via form.
 const projectCreationDOM = (() => {

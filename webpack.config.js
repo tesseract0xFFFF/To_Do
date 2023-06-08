@@ -6,7 +6,7 @@ module.exports = {
   entry: {
     app: './src/app.js',
     newProject: './src/newProject.js',
-    newTodo: './src/newTodo.js',
+    display: './src/display.js',
   },
   devtool: 'inline-source-map',
   devServer: {
