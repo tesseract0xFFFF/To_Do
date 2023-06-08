@@ -1,0 +1,45 @@
+body {
+    height: 100vh;
+    width: 100vw;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    background-color: aqua;
+}
+
+.sidebar {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    background-color: brown;
+    flex: 1;
+}
+
+.formArea {
+    flex: 1;
+}
+
+.projectArea {
+    flex: 1;
+}
+
+#projectFormContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 45vw;
+    top: 30vh;
+    right: 100px;
+    background-color: blueviolet;
+    width: 500px;
+    height: 300px;
+}
+
+.taskArea{
+    flex: 2;
+    width: 75%;
+}

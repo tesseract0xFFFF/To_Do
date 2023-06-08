@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo</title>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="formArea">formArea</div>
+            <div class="projectArea">
+                <button id="createProjectButt">Create Project</button>
+            </div>
+        </div>
+        <div class="taskArea">taskArea</div>
+
+        <!-- project creation form container -->
+        <div id="projectFormContainer" style="display: none;">
+            <form id="createProjectForm" style="display: none;">
+                <div>
+                    <label for="project_name">Project Name:</label>
+                    <input type="text" id="project_name">
+                </div>
+                <input type="submit" value="Add Book">
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>
