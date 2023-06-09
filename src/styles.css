@@ -3,6 +3,8 @@ body {
     width: 100vw;
 }
 
+
+
 .container {
     height: 100%;
     width: 100%;
@@ -25,6 +27,12 @@ body {
 .projectArea {
     flex: 1;
 }
+
+.projectDeleteButtons {
+    width: 30px;
+    height: 20px;
+    margin-left: 10px;
+} 
 
 #projectFormContainer{
     display: flex;

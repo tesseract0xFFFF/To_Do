@@ -52,25 +52,19 @@ const projectCreationDOM = (() => {
     const formInput = document.getElementById('project_name');
     if (formInput.value === '') {
       alert('must not be empty!');
+      return;
     }
+    // create a new project object based on form input
     const newProject = main.createProject(formInput.value);
     // close the pop-up
     projectForm.style.display = 'none';
     projectFormContainer.style.display = 'none';
-    displayProjects(formInput.value);
+    // clicking on the button will result in the removal of the project object from the
+    // main projects array and the project's respective DOM element.
+    const projectDisplay = displayProjects(formInput.value);
+    projectDisplay.projectDeleteButt.addEventListener('click', () => {
+      main.deleteProject(newProject);
+      projectDisplay.projectElement.remove();
+    });
   });
 })();
-
-// const newP = main.createProject('helloWorld');
-// newP.createTodo('kaki', 'pipi', 'tusik', 'ichs');
-
-// console.log(newP);
-// console.log(main.projectArray);
-
-// // main.deleteProject(newP);
-
-// const test = main.defaultProject.createTodo('kaki', 'kaki1', 'kaki2', 'kaki3');
-
-// main.defaultProject.deleteTodo(test);
-
-// console.log(main.defaultProject);
