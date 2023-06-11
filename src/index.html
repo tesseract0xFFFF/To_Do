@@ -9,7 +9,37 @@
 <body>
     <div class="container">
         <div class="sidebar">
-            <div class="formArea">formArea</div>
+            <div class="formArea">
+                <h1>Add a task:</h1>
+                <form id="createTaskForm" style="display: none;">
+
+                  <div>
+                      <label for="title">Title:</label>
+                      <input type="text" id="title" name="title" required>
+                  </div>
+
+                  <div>
+                  <label for="description">Description:</label>
+                  <textarea id="description" name="description" required></textarea>
+                  </div>
+
+                  <div>
+                  <label for="date">Date:</label>
+                  <input type="date" id="date" name="date" required>
+                  </div>
+
+                  <div>
+                  <label for="options">Options:</label>
+                  <select id="options" name="options" required>
+                    <option value="">Select an option</option>
+                    <option value="option1">Low priority</option>
+                    <option value="option2">Medium Priority</option>
+                    <option value="option3">High Priority</option>
+                  </select>
+                  </div>
+                  <input type="submit" value="Add task">
+                </form>
+                          </div>
             <div class="projectArea">
                 <button id="createProjectButt">Create Project</button>
             </div>
@@ -23,7 +53,7 @@
                     <label for="project_name">Project Name:</label>
                     <input type="text" id="project_name">
                 </div>
-                <input type="submit" value="Add Book">
+                <input type="submit" value="Add Project">
             </form>
         </div>
 

@@ -13,6 +13,8 @@ export default class Project {
       priority: newPriority,
     };
     this.todoArray.push(todoObject);
+    console.log('task created!');
+    console.log(this.todoArray);
     return todoObject;
   }
 
