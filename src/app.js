@@ -7,7 +7,31 @@ const main = (() => {
   let tempStorage;
   const projectArray = [];
   const defaultProject = new Project('default');
-  displayProjects('default');
+  projectArray.push(defaultProject);
+  const defaultProjectDisplay = displayProjects('default');
+  // clicking on default project will display its associated tasks.
+  defaultProjectDisplay.projectElement.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const taskArea = document.querySelector('.taskArea');
+    taskArea.textContent = '';
+    displayTodo(defaultProject);
+  });
+  console.log(projectArray);
+
+  // adding tasks to the default project.
+  defaultProjectDisplay.addTaskButt.addEventListener('click', (event) => {
+    event.stopPropagation();
+    // stores the current project in a temp storage.
+    const project = defaultProject;
+    main.tempStorage = project;
+    const taskCreationForm = document.getElementById('createTaskForm');
+    if (taskCreationForm.style.display === 'none') {
+      taskCreationForm.style.display = 'flex';
+    } else {
+      main.tempStorage = '';
+      taskCreationForm.style.display = 'none';
+    }
+  });
   // project creation.
   const createProject = (projectName) => {
     const newProject = new Project(projectName);
@@ -126,6 +150,9 @@ const projectCreationDOM = (() => {
       taskDate.value,
       taskOptions.value,
     );
+    const taskArea = document.querySelector('.taskArea');
+    taskArea.textContent = '';
+    displayTodo(main.tempStorage);
     taskCreationForm.style.display = 'none';
     taskTitle.value = '';
     taskDescription.value = '';

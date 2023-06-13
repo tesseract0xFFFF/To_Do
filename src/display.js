@@ -2,6 +2,7 @@
 const displayProjects = (projectName) => {
   const projectArea = document.querySelector('.projectArea');
   const projectElement = document.createElement('div');
+  projectElement.className += 'hover-effect';
   const projectDeleteButt = document.createElement('button');
   const addTaskButt = document.createElement('button');
   // won't add a delete button to the default project.

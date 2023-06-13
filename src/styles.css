@@ -36,6 +36,12 @@ textarea {
     flex-direction: column;
 }
 
+
+.hover-effect:hover {
+    /* Styles for the div on hover */
+    background-color: blue;
+    color: black;
+  }
 .projectArea {
     flex: 1;
 }
