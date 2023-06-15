@@ -4,7 +4,10 @@ import { displayProjects, displayTodo } from './display';
 // create the default project that will show when the app is launched for the first time.
 const main = (() => {
   // an array holding all projects.
+  // temp storage 1 is for projects, 2 is for todo objects.
   let tempStorage;
+  let tempstorage2;
+
   const projectArray = [];
   const defaultProject = new Project('default');
   projectArray.push(defaultProject);
@@ -23,12 +26,12 @@ const main = (() => {
     event.stopPropagation();
     // stores the current project in a temp storage.
     const project = defaultProject;
-    main.tempStorage = project;
+    tempStorage = project;
     const taskCreationForm = document.getElementById('createTaskForm');
     if (taskCreationForm.style.display === 'none') {
       taskCreationForm.style.display = 'flex';
     } else {
-      main.tempStorage = '';
+      tempStorage = '';
       taskCreationForm.style.display = 'none';
     }
   });
@@ -51,7 +54,12 @@ const main = (() => {
   };
 
   return {
-    projectArray, defaultProject, createProject, deleteProject, tempStorage,
+    projectArray,
+    defaultProject,
+    createProject,
+    deleteProject,
+    tempStorage,
+    tempstorage2,
   };
 })();
 
@@ -98,8 +106,8 @@ const projectCreationDOM = (() => {
     // main projects array and the project's respective DOM element.
     const projectDisplay = displayProjects(formInput.value);
     formInput.value = '';
-    projectDisplay.projectDeleteButt.addEventListener('click', (event) => {
-      event.stopPropagation();
+    projectDisplay.projectDeleteButt.addEventListener('click', (delEvent) => {
+      delEvent.stopPropagation();
       const taskArea = document.querySelector('.taskArea');
       main.deleteProject(newProject.name);
       projectDisplay.projectElement.remove();
@@ -136,6 +144,9 @@ const projectCreationDOM = (() => {
   // ties tasks to their respective projects.
   const taskCreationForm = document.getElementById('createTaskForm');
   taskCreationForm.addEventListener('submit', (e) => {
+    // okay, this is  a messy one. bad planning has made sharing data
+    // between the modules and functions pretty difficult.
+    // I have used temp storages to pass said data around.
     e.preventDefault();
     e.stopPropagation();
 
@@ -144,15 +155,20 @@ const projectCreationDOM = (() => {
     const taskDescription = document.getElementById('description');
     const taskDate = document.getElementById('date');
     const taskOptions = document.getElementById('options');
-    main.tempStorage.createTodo(
+    const createdTodoObject = main.tempStorage.createTodo(
       taskTitle.value,
       taskDescription.value,
       taskDate.value,
       taskOptions.value,
     );
+    main.tempstorage2 = createdTodoObject;
     const taskArea = document.querySelector('.taskArea');
     taskArea.textContent = '';
-    displayTodo(main.tempStorage);
+
+    displayTodo(main.tempStorage, main.tempstorage2);
+
+    // gotta reset values.
+    main.tempstorage2 = '';
     taskCreationForm.style.display = 'none';
     taskTitle.value = '';
     taskDescription.value = '';

@@ -7,6 +7,7 @@ module.exports = {
     app: './src/app.js',
     newProject: './src/newProject.js',
     display: './src/display.js',
+    todoTaskFunctions: './src/newTasks.js',
   },
   devtool: 'inline-source-map',
   devServer: {

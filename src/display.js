@@ -26,8 +26,9 @@ const displayProjects = (projectName) => {
   return { projectDeleteButt, projectElement, addTaskButt };
 };
 
-const displayTodo = (project) => {
+const displayTodo = (project, taskObject) => {
   const taskArea = document.querySelector('.taskArea');
+
   // clears display.
   taskArea.textContent = '';
   project.todoArray.forEach((element) => {
@@ -36,6 +37,18 @@ const displayTodo = (project) => {
     const descriptionElement = document.createElement('div');
     const dateEelement = document.createElement('div');
     const priorityElement = document.createElement('div');
+    const delButt = document.createElement('button');
+    delButt.textContent = 'del';
+    const expandButt = document.createElement('button');
+    expandButt.textContent = '···';
+
+    delButt.addEventListener('click', (event) => {
+      event.stopPropagation();
+      project.deleteTodo(taskObject);
+      todoElement.remove();
+      console.log(project.todoArray);
+    });
+
     titleElement.textContent = element.title;
     descriptionElement.textContent = element.description;
     dateEelement.textContent = element.dueDate;
@@ -44,8 +57,9 @@ const displayTodo = (project) => {
     todoElement.appendChild(descriptionElement);
     todoElement.appendChild(dateEelement);
     todoElement.appendChild(priorityElement);
+    todoElement.appendChild(delButt);
+    todoElement.appendChild(expandButt);
     taskArea.appendChild(todoElement);
-    return { todoElement };
   });
 };
 

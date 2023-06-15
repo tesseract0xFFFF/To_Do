@@ -25,15 +25,6 @@ export default class Project {
       return;
     }
     this.todoArray.splice(indexToDelete, 1);
+    console.log(this.todoArray);
   }
 }
-
-// const newp = new Project('kaki');
-// // const newp1 = new Project('kwik');
-
-// const p1 = newp.createTodo('eat', 'eating', 'tmrw', 'high');
-// const p2 = newp.createTodo('kaki', 'kaki2', 'kaki3', 'kaki4');
-// // newp1.createTodo('kawik1', 'kawik2', 'kawik3', 'kawik4');
-// newp.deleteTodo(p1);
-// console.log(newp.todoArray);
-// // console.log(newp1.todoArray);
