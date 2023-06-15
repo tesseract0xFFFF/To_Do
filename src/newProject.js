@@ -22,6 +22,7 @@ export default class Project {
   deleteTodo(taskToDelete) {
     const indexToDelete = this.todoArray.findIndex((task) => task === taskToDelete);
     if (indexToDelete === -1) {
+      console.log('Does not equal');
       return;
     }
     this.todoArray.splice(indexToDelete, 1);
