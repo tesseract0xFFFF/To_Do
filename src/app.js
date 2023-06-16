@@ -4,9 +4,8 @@ import { displayProjects, displayTodo } from './display';
 // create the default project that will show when the app is launched for the first time.
 const main = (() => {
   // an array holding all projects.
-  // temp storage 1 is for projects, 2 is for todo objects.
+  // temp storage is for projects.
   let tempStorage;
-  let tempstorage2;
 
   const projectArray = [];
   const defaultProject = new Project('default');
@@ -21,20 +20,6 @@ const main = (() => {
   });
   console.log(projectArray);
 
-  // adding tasks to the default project.
-  defaultProjectDisplay.addTaskButt.addEventListener('click', (event) => {
-    event.stopPropagation();
-    // stores the current project in a temp storage.
-    const project = defaultProject;
-    tempStorage = project;
-    const taskCreationForm = document.getElementById('createTaskForm');
-    if (taskCreationForm.style.display === 'none') {
-      taskCreationForm.style.display = 'flex';
-    } else {
-      tempStorage = '';
-      taskCreationForm.style.display = 'none';
-    }
-  });
   // project creation.
   const createProject = (projectName) => {
     const newProject = new Project(projectName);
@@ -56,10 +41,10 @@ const main = (() => {
   return {
     projectArray,
     defaultProject,
+    defaultProjectDisplay,
     createProject,
     deleteProject,
     tempStorage,
-    tempstorage2,
   };
 })();
 
@@ -68,6 +53,21 @@ const projectCreationDOM = (() => {
   const createProjectButt = document.getElementById('createProjectButt');
   const projectForm = document.getElementById('createProjectForm');
   const projectFormContainer = document.getElementById('projectFormContainer');
+
+  // adding tasks to the default project.
+  main.defaultProjectDisplay.addTaskButt.addEventListener('click', (event) => {
+    event.stopPropagation();
+    // stores the current project in a temp storage.
+    const project = main.defaultProject;
+    main.tempStorage = project;
+    const taskCreationForm = document.getElementById('createTaskForm');
+    if (taskCreationForm.style.display === 'none') {
+      taskCreationForm.style.display = 'flex';
+    } else {
+      main.tempStorage = '';
+      taskCreationForm.style.display = 'none';
+    }
+  });
 
   // the 'create project' pop-up.
   createProjectButt.addEventListener('click', () => {
@@ -155,20 +155,28 @@ const projectCreationDOM = (() => {
     const taskDescription = document.getElementById('description');
     const taskDate = document.getElementById('date');
     const taskOptions = document.getElementById('options');
-    const createdTodoObject = main.tempStorage.createTodo(
+
+    const duplicateName = main.tempStorage.todoArray.findIndex(
+      (task) => task.title === taskTitle.value,
+    );
+    if (duplicateName !== -1) {
+      alert('name already taken!');
+      return;
+    }
+
+    main.tempStorage.createTodo(
       taskTitle.value,
       taskDescription.value,
       taskDate.value,
       taskOptions.value,
     );
-    main.tempstorage2 = createdTodoObject;
     const taskArea = document.querySelector('.taskArea');
     taskArea.textContent = '';
 
-    displayTodo(main.tempStorage, main.tempstorage2);
+    displayTodo(main.tempStorage);
 
     // gotta reset values.
-    main.tempstorage2 = '';
+    main.tempStorage = '';
     taskCreationForm.style.display = 'none';
     taskTitle.value = '';
     taskDescription.value = '';

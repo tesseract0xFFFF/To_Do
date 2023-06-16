@@ -19,8 +19,9 @@ export default class Project {
   }
 
   // delets said tasks from the current project array.
+  // looks for title properties that match.
   deleteTodo(taskToDelete) {
-    const indexToDelete = this.todoArray.findIndex((task) => task === taskToDelete);
+    const indexToDelete = this.todoArray.findIndex((task) => task.title === taskToDelete);
     if (indexToDelete === -1) {
       console.log('Does not equal');
       return;
