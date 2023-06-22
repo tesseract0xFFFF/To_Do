@@ -3,7 +3,6 @@ import './styles.css';
 import { displayProjects, displayTodo } from './display';
 // create the default project that will show when the app is launched for the first time.
 const main = (() => {
-  // an array holding all projects.
   // temp storage is for projects.
   let tempStorage;
 

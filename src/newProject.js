@@ -29,4 +29,17 @@ export default class Project {
     this.todoArray.splice(indexToDelete, 1);
     console.log(this.todoArray);
   }
+
+  // editTodo(taskToEdit, elemTitle, elemDescription, elemDuedate, elemPriority) {
+  //   const indexToEdit = this.todoArray.findIndex((task) => task.title === taskToEdit);
+  //   if (indexToEdit === -1) {
+  //     console.log('Task does not exist');
+  //     return;
+  //   }
+
+  //   this.todoArray[indexToEdit].title = elemTitle;
+  //   this.todoArray[indexToEdit].description = elemDescription;
+  //   this.todoArray[indexToEdit].dueDate = elemDuedate;
+  //   this.todoArray[indexToEdit].priority = elemPriority;
+  // }
 }

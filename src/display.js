@@ -1,19 +1,71 @@
+import Project from './newProject';
+
+const editTodo = (() => {
+  // ediding goes by the way of deleting the todo object and creating a new one
+  // (so not really editing).
+  let titleTempStorage;
+  let projectTempStorage;
+  const taskEditForm = document.getElementById('editTaskForm');
+  const taskEditContainer = document.getElementById('taskEditContainer');
+
+  function setTitleTempStorage(val) {
+    titleTempStorage = val;
+  }
+
+  function setProjectTempStorage(val) {
+    projectTempStorage = val;
+  }
+
+  taskEditForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const editTaskTitle = document.getElementById('editTitle');
+    const editTaskDescription = document.getElementById('editDescription');
+    const editTaskDate = document.getElementById('editDate');
+    const editTaskOptions = document.getElementById('editOptions');
+
+    // create a new project
+    projectTempStorage.createTodo(
+      editTaskTitle.value,
+      editTaskDescription.value,
+      editTaskDate.value,
+      editTaskOptions.value,
+    );
+
+    // delete former todo task object.
+
+    projectTempStorage.deleteTodo(titleTempStorage);
+
+    taskEditContainer.style.display = 'none';
+    taskEditForm.style.display = 'none';
+    // make it hoisted!
+    displayTodo(projectTempStorage);
+    setTitleTempStorage('');
+    setProjectTempStorage('');
+  });
+
+  return {
+    titleTempStorage, projectTempStorage, setTitleTempStorage, setProjectTempStorage,
+  };
+})();
+
 // displays the newly created projects.
 const displayProjects = (projectName) => {
   const projectArea = document.querySelector('.projectArea');
   const projectElement = document.createElement('div');
-  projectElement.className += 'hover-effect';
+  projectElement.classList.add('hover-effect');
   const projectDeleteButt = document.createElement('button');
   const addTaskButt = document.createElement('button');
   // won't add a delete button to the default project.
   if (projectName === 'default') {
-    addTaskButt.className += 'addTaskButtons';
+    addTaskButt.classList.add('addTaskButtons');
     addTaskButt.textContent = '+';
     projectElement.textContent = projectName;
     projectElement.appendChild(addTaskButt);
     projectArea.appendChild(projectElement);
   } else {
-    projectDeleteButt.className += 'projectDeleteButtons';
+    projectDeleteButt.classList.add('projectDeleteButtons');
     projectDeleteButt.textContent = 'del';
     addTaskButt.className += 'addTaskButtons';
     addTaskButt.textContent = '+';
@@ -26,8 +78,10 @@ const displayProjects = (projectName) => {
   return { projectDeleteButt, projectElement, addTaskButt };
 };
 
-const displayTodo = (project) => {
+function displayTodo(project) {
   const taskArea = document.querySelector('.taskArea');
+  const taskEditContainer = document.getElementById('taskEditContainer');
+  const taskEditForm = document.getElementById('editTaskForm');
 
   // clears display.
   taskArea.textContent = '';
@@ -38,16 +92,18 @@ const displayTodo = (project) => {
     const dateEelement = document.createElement('div');
     const priorityElement = document.createElement('div');
     const delButt = document.createElement('button');
+    delButt.classList.add('taskDelButt');
     delButt.textContent = 'del';
-    const expandButt = document.createElement('button');
-    expandButt.textContent = '···';
+    const editButt = document.createElement('button');
+    editButt.classList.add('taskEditButt');
+    editButt.textContent = 'edit';
 
     titleElement.textContent = element.title;
     descriptionElement.textContent = element.description;
     dateEelement.textContent = element.dueDate;
     priorityElement.textContent = element.priority;
 
-    // will look for each task's title.
+    // handles deleting tasks.
     delButt.addEventListener('click', (event) => {
       event.stopPropagation();
       project.deleteTodo(element.title);
@@ -58,14 +114,36 @@ const displayTodo = (project) => {
       console.log(project.todoArray);
     });
 
+    // brings up an edit task form.
+    editButt.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const todotitle = element.title;
+      const projectToEdit = project;
+
+      editTodo.setTitleTempStorage(todotitle);
+      editTodo.setProjectTempStorage(projectToEdit);
+
+      if (taskEditContainer.style.display === 'none' && taskEditForm.style.display === 'none') {
+        taskEditContainer.style.display = 'flex';
+        taskEditForm.style.display = 'block';
+        // every time the form comes up - the task's title and
+        // containing project will be saved in a temp location.
+      } else {
+        taskEditContainer.style.display = 'none';
+        taskEditForm.style.display = 'none';
+        editTodo.setTitleTempStorage('');
+        editTodo.setProjectTempStorage('');
+      }
+    });
+
     todoElement.appendChild(titleElement);
     todoElement.appendChild(descriptionElement);
     todoElement.appendChild(dateEelement);
     todoElement.appendChild(priorityElement);
     todoElement.appendChild(delButt);
-    todoElement.appendChild(expandButt);
+    todoElement.appendChild(editButt);
     taskArea.appendChild(todoElement);
   });
-};
+}
 
 export { displayProjects, displayTodo };

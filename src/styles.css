@@ -71,6 +71,19 @@ textarea {
     height: 300px;
 }
 
+#taskEditContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 45vw;
+    top: 30vh;
+    right: 100px;
+    background-color: green;
+    width: 500px;
+    height: 300px;
+}
+
 .taskArea{
     flex: 2;
     width: 75%;

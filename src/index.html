@@ -57,6 +57,37 @@
             </form>
         </div>
 
+
+
+
+        <div id="taskEditContainer" style="display: none;">           
+            <form id="editTaskForm" style="display: none;">
+                <h1>Edit task:</h1>
+              <div>
+                  <label for="title">Edit Title:</label>
+                  <input type="text" id="editTitle" name="edittitlename" required>
+              </div>
+              <div>
+              <label for="description">Edit Description:</label>
+              <textarea id="editDescription" name="editdescriptionname" required></textarea>
+              </div>
+              <div>
+              <label for="date">Edit Date:</label>
+              <input type="date" id="editDate" name="editdatename" required>
+              </div>
+              <div>
+              <label for="options">Edit Options:</label>
+              <select id="editOptions" name="editoptionsname" required>
+                <option value="">Select an option</option>
+                <option value="option1">Low priority</option>
+                <option value="option2">Medium Priority</option>
+                <option value="option3">High Priority</option>
+              </select>
+              </div>
+              <input type="submit" value="Edit">
+            </form>
+        </div>
+
     </div>
 </body>
 </html>
