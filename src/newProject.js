@@ -1,3 +1,5 @@
+import { main } from './app';
+
 export default class Project {
   constructor(name) {
     this.name = name;
@@ -14,6 +16,15 @@ export default class Project {
     };
     this.todoArray.push(todoObject);
     console.log('task created!');
+    if (this.name === 'default') {
+      main.projectArray[0] = this;
+    }
+    // projectArray needs to be updated with the new project instances.
+    //  So the saves into localStorage will work.
+    const projectIndex = main.projectArray.findIndex((project) => project.name === this.name);
+    main.projectArray[projectIndex] = this;
+    localStorage.setItem('projectArray', JSON.stringify(main.projectArray));
+
     console.log(this.todoArray);
     return todoObject;
   }
@@ -27,19 +38,11 @@ export default class Project {
       return;
     }
     this.todoArray.splice(indexToDelete, 1);
+    // projectArray needs to be updated with the new project instances.
+    //  So the saves into localStorage will work.
+    const projectIndex = main.projectArray.findIndex((project) => project.name === this.name);
+    main.projectArray[projectIndex] = this;
+    localStorage.setItem('projectArray', JSON.stringify(main.projectArray));
     console.log(this.todoArray);
   }
-
-  // editTodo(taskToEdit, elemTitle, elemDescription, elemDuedate, elemPriority) {
-  //   const indexToEdit = this.todoArray.findIndex((task) => task.title === taskToEdit);
-  //   if (indexToEdit === -1) {
-  //     console.log('Task does not exist');
-  //     return;
-  //   }
-
-  //   this.todoArray[indexToEdit].title = elemTitle;
-  //   this.todoArray[indexToEdit].description = elemDescription;
-  //   this.todoArray[indexToEdit].dueDate = elemDuedate;
-  //   this.todoArray[indexToEdit].priority = elemPriority;
-  // }
 }

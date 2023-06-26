@@ -6,17 +6,45 @@ const main = (() => {
   // temp storage is for projects.
   let tempStorage;
 
-  const projectArray = [];
-  const defaultProject = new Project('default');
-  projectArray.push(defaultProject);
-  const defaultProjectDisplay = displayProjects('default');
-  // clicking on default project will display its associated tasks.
-  defaultProjectDisplay.projectElement.addEventListener('click', (event) => {
-    event.stopPropagation();
-    const taskArea = document.querySelector('.taskArea');
-    taskArea.textContent = '';
-    displayTodo(defaultProject);
-  });
+  let projectArray;
+
+  function setProjectArray(value) {
+    projectArray = value;
+  }
+
+  // will create a default project if localStorage is empty.
+  if (!localStorage.getItem('projectArray')) {
+    setProjectArray([]);
+    const defaultProject = new Project('default');
+    projectArray.push(defaultProject);
+    const defaultProjectDisplay = displayProjects('default');
+    // clicking on default project will display its associated tasks.
+    defaultProjectDisplay.projectElement.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const taskArea = document.querySelector('.taskArea');
+      taskArea.textContent = '';
+      displayTodo(defaultProject);
+    });
+
+    // adding tasks to the default project.
+    defaultProjectDisplay.addTaskButt.addEventListener('click', (event) => {
+      event.stopPropagation();
+      // stores the current project in a temp storage.
+      const project = defaultProject;
+      tempStorage = project;
+      const taskCreationForm = document.getElementById('createTaskForm');
+      if (taskCreationForm.style.display === 'none') {
+        taskCreationForm.style.display = 'flex';
+      } else {
+        tempStorage = '';
+        taskCreationForm.style.display = 'none';
+      }
+    });
+    localStorage.setItem('projectArray', JSON.stringify(projectArray));
+  } else {
+    const localStorageData = JSON.parse(localStorage.getItem('projectArray'));
+    setProjectArray(localStorageData);
+  }
   console.log(projectArray);
 
   // project creation.
@@ -24,6 +52,7 @@ const main = (() => {
     const newProject = new Project(projectName);
     projectArray.push(newProject);
     console.log(newProject);
+    localStorage.setItem('projectArray', JSON.stringify(projectArray));
     return newProject;
   };
 
@@ -34,13 +63,12 @@ const main = (() => {
     }
     projectArray.splice(indexToDelete, 1);
     console.log('project deleted!');
+    localStorage.setItem('projectArray', JSON.stringify(projectArray));
     console.log(projectArray);
   };
 
   return {
     projectArray,
-    defaultProject,
-    defaultProjectDisplay,
     createProject,
     deleteProject,
     tempStorage,
@@ -52,21 +80,6 @@ const projectCreationDOM = (() => {
   const createProjectButt = document.getElementById('createProjectButt');
   const projectForm = document.getElementById('createProjectForm');
   const projectFormContainer = document.getElementById('projectFormContainer');
-
-  // adding tasks to the default project.
-  main.defaultProjectDisplay.addTaskButt.addEventListener('click', (event) => {
-    event.stopPropagation();
-    // stores the current project in a temp storage.
-    const project = main.defaultProject;
-    main.tempStorage = project;
-    const taskCreationForm = document.getElementById('createTaskForm');
-    if (taskCreationForm.style.display === 'none') {
-      taskCreationForm.style.display = 'flex';
-    } else {
-      main.tempStorage = '';
-      taskCreationForm.style.display = 'none';
-    }
-  });
 
   // the 'create project' pop-up.
   createProjectButt.addEventListener('click', () => {
@@ -173,6 +186,7 @@ const projectCreationDOM = (() => {
     taskArea.textContent = '';
 
     displayTodo(main.tempStorage);
+    localStorage.setItem('projectArray', JSON.stringify(main.projectArray));
 
     // gotta reset values.
     main.tempStorage = '';
@@ -183,3 +197,59 @@ const projectCreationDOM = (() => {
     taskOptions.value = '';
   });
 })();
+
+const todoStorage = (() => {
+  if (!localStorage.getItem('projectArray')) {
+    console.log('localStorage empty');
+  } else {
+    const storedObject = JSON.parse(localStorage.getItem('projectArray'));
+    // an array of key-value arrays containing the project objects.
+    const storedObjectArray = Object.entries(storedObject);
+    // attempt to create projects based on localStorage
+    storedObjectArray.forEach((element) => {
+      const newProj = new Project(element[1].name);
+      const projectDisplayElements = displayProjects(element[1].name);
+
+      // copies todo array to new project object.
+      newProj.todoArray = element[1].todoArray;
+
+      // deleting a project
+      projectDisplayElements.projectDeleteButt.addEventListener('click', (delEvent) => {
+        delEvent.stopPropagation();
+        const taskArea = document.querySelector('.taskArea');
+        main.deleteProject(newProj.name);
+        projectDisplayElements.projectElement.remove();
+        while (taskArea.firstChild) {
+          taskArea.firstChild.remove();
+        }
+      });
+
+      // attaches an event on the add task button.
+      projectDisplayElements.addTaskButt.addEventListener('click', (event) => {
+        event.stopPropagation();
+        // stores the current project in a temp storage.
+        const project = newProj;
+        main.tempStorage = project;
+        const taskCreationForm = document.getElementById('createTaskForm');
+        if (taskCreationForm.style.display === 'none') {
+          taskCreationForm.style.display = 'flex';
+        } else {
+          main.tempStorage = '';
+          taskCreationForm.style.display = 'none';
+        }
+      });
+
+      // will display each project's tasks
+      projectDisplayElements.projectElement.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const taskArea = document.querySelector('.taskArea');
+        taskArea.textContent = '';
+        displayTodo(newProj);
+      });
+
+      console.log(storedObjectArray);
+    });
+  }
+})();
+
+export { main };

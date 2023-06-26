@@ -1,4 +1,5 @@
 import Project from './newProject';
+import { main } from './app';
 
 const editTodo = (() => {
   // ediding goes by the way of deleting the todo object and creating a new one
@@ -39,7 +40,8 @@ const editTodo = (() => {
 
     taskEditContainer.style.display = 'none';
     taskEditForm.style.display = 'none';
-    // make it hoisted!
+
+    localStorage.setItem('projectArray', JSON.stringify(main.projectArray));
     displayTodo(projectTempStorage);
     setTitleTempStorage('');
     setProjectTempStorage('');
